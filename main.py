@@ -116,8 +116,32 @@ def kingPossibleMoves(capital, location):
     if y-1 > 0:
         df.iloc[x, y-1] = "M"
 
+## displays the possible knight moves
+def knightPossibleMoves(capital, location):
+    x = location[0]
+    y = location[1]
 
+    if x+2 < 8:
+        if y+1 < 8:
+            df.iloc[x+2, y+1] = "M"
+        if y-1 >= 0:
+            df.iloc[x+2, y-1] = "M"
+    if x+1 < 8:
+        if y+2 < 8:
+            df.iloc[x+1, y+2] = "M"
+        if y-2 >= 0:
+            df.iloc[x+1, y-2] = "M"
 
+    if x-2 >= 0:
+        if y+1 < 8:
+            df.iloc[x-2, y+1] = "M"
+        if y-1 >= 0:
+            df.iloc[x-2, y-1] = "M"
+    if x-1 >= 0:
+        if y+2 < 8:
+            df.iloc[x-1, y+2] = "M"
+        if y-2 >= 0:
+            df.iloc[x-1, y-2] = "M"
 
 
 
