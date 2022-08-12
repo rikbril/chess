@@ -1,23 +1,71 @@
 import pandas as pd
 
+class Piece:
+    def __init__(self, is_white, type_of, location):
+        self.is_white = is_white
+        self.type_of = type_of
+        self.location_of_piece = location
+        
+    def isWhite(self):
+        return self.is_white
+    
+    def typeOf(self):
+        return self.type_of
+    
+    def location(self):
+        return self.location_of_piece
+    
+class Pawn(Piece):
+    def moves(self):    
+        x = self.location[0]
+        y = self.location[1]
+
+        ## needs check for frendlies
+        if x == 1:
+            df.iloc[x+2, y] = "M"
+        if x < 7:
+            df.iloc[x+1, y] = "M"    
+            if y < 7:
+                df.iloc[x+1, y+1] = "A"
+            if y > 0:
+                df.iloc[x+1, y-1] = "A"
+                
+
+class Rook(Piece):
+    def moves(self):
+        x = self.location[0]
+        y = self.location[1]
+
+        for i in range(0, x):
+            df.iloc[i, y] = "M1"
+        for i in range(x+1, 8):
+            df.iloc[i, y] = "M2"
+        for i in range(0, y):
+            df.iloc[x, i] = "M3"
+        for i in range(y+1, 8):
+            df.iloc[x, i] = "M4"
+
+                
+
 ## creates a pandas dataframe and fills the board with pieces in accordance with the FEN notation
-df = pd.DataFrame(columns=("a", "b", "c", "d", "e", "f", "g", "H"))
-# startFen = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr"
-startFen = "RNBQKBNR/PPPPPPPP"
-numberString = "0123456789"
+def createDF():
+    df = pd.DataFrame(columns=("a", "b", "c", "d", "e", "f", "g", "H"))
+    # startFen = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr"
+    startFen = "RNBQKBNR/PPPPPPPP"
+    numberString = "0123456789"
 
-for i in range(0, 8):
-    df.loc[df.shape[0]] = ""
+    for i in range(0, 8):
+        df.loc[df.shape[0]] = ""
 
-count = 0
-for i in range(len(startFen)):
-    if startFen[i] in numberString:
-        count = count + int(startFen[i])
-        for x in range(int(startFen[i])):
-            df.iloc[(count//8), (count % 8)] = ""
-    elif startFen[i] != "/":
-        df.iloc[(count//8), (count % 8)] = startFen[i]
-        count += 1
+    count = 0
+    for i in range(len(startFen)):
+        if startFen[i] in numberString:
+            count = count + int(startFen[i])
+            for x in range(int(startFen[i])):
+                df.iloc[(count//8), (count % 8)] = ""
+        elif startFen[i] != "/":
+            df.iloc[(count//8), (count % 8)] = startFen[i]
+            count += 1
 
 ## displays the possible moves of the pawns, including attack possitions
 def pawnPossibleMoves(capital, location):
